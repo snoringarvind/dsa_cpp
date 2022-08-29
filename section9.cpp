@@ -3,7 +3,7 @@ using namespace std;
 
 class Matrix
 {
-public:
+protected:
     int n;
     int *A;
 
