@@ -1,27 +1,34 @@
 #include <iostream>
 using namespace std;
 
-class Diagonal
+class Matrix
 {
-private:
-    int *A;
-    int n;
-
 public:
-    Diagonal()
+    int n;
+    int *A;
+
+    Matrix()
     {
         this->n = 2;
         A = new int(2);
     }
-    Diagonal(int n)
+    Matrix(int n)
     {
         this->n = n;
         A = new int(n);
     }
-    ~Diagonal()
+    ~Matrix()
     {
         delete[](A);
     }
+};
+
+class Diagonal : Matrix
+{
+public:
+    Diagonal() : Matrix(){};
+
+    Diagonal(int n) : Matrix(n){};
 
     // for diagonal Matrix
     void Set(int i, int j, int x)
@@ -30,7 +37,7 @@ public:
         {
             A[i] = x;
         }
-    }
+    };
 
     // for diagonal Matrix
     int Get(int i, int j)
@@ -58,23 +65,12 @@ public:
     };
 };
 
-class LowerTriangularMatrixUsingRowMapping
+class LowerTriangularMatrixUsingRowMapping : Matrix
 {
-private:
-    int *A;
-    int n;
 
 public:
-    LowerTriangularMatrixUsingRowMapping()
-    {
-        n = 2;
-        A = new int[n];
-    };
-    LowerTriangularMatrixUsingRowMapping(int n)
-    {
-        this->n = n;
-        A = new int[n];
-    };
+    LowerTriangularMatrixUsingRowMapping() : Matrix(){};
+    LowerTriangularMatrixUsingRowMapping(int n) : Matrix(n){};
 
     // for lower triangular matrix, using row mapping
     void Set(int i, int j, int x)
@@ -111,24 +107,12 @@ public:
     }
 };
 
-class LowerTriangularMatrixUsingColMapping
+class LowerTriangularMatrixUsingColMapping : Matrix
 {
-private:
-    int *A;
-    int n;
-
 public:
-    LowerTriangularMatrixUsingColMapping()
-    {
-        n = 2;
-        A = new int[n];
-    };
+    LowerTriangularMatrixUsingColMapping() : Matrix(){};
 
-    LowerTriangularMatrixUsingColMapping(int n)
-    {
-        this->n = n;
-        A = new int[n];
-    }
+    LowerTriangularMatrixUsingColMapping(int n) : Matrix(n){};
     // for lower triangular matrix using column mapping
     void Set(int i, int j, int x)
     {
@@ -139,7 +123,7 @@ public:
         {
             A[(n * (j - 1)) - (((j - 2) * (j - 1)) / 2) + (i - j)] = x;
         }
-    }
+    };
 
     int Get(int i, int j, int x)
     {
@@ -168,23 +152,12 @@ public:
     }
 };
 
-class UpperTriangularMatrixUsingRowmapping
+class UpperTriangularMatrixUsingRowmapping : Matrix
 {
-private:
-    int *A;
-    int n;
 
 public:
-    UpperTriangularMatrixUsingRowmapping()
-    {
-        n = 2;
-        A = new int[n];
-    };
-    UpperTriangularMatrixUsingRowmapping(int n)
-    {
-        this->n = n;
-        A = new int[n];
-    }
+    UpperTriangularMatrixUsingRowmapping() : Matrix(){};
+    UpperTriangularMatrixUsingRowmapping(int n) : Matrix(n){};
 
     void Set(int i, int j, int x)
     {
@@ -226,24 +199,16 @@ public:
     }
 };
 
-class UpperTriangularMatrixUsingColMapping
+class UpperTriangularMatrixUsingColMapping : Matrix
 {
-private:
-    int *A;
-    int n;
-
 public:
-    UpperTriangularMatrixUsingColMapping()
-    {
-        n = 2;
-        A = new int[n];
-    }
+    UpperTriangularMatrixUsingColMapping() : Matrix(){};
 
-    UpperTriangularMatrixUsingColMapping(int n)
+    UpperTriangularMatrixUsingColMapping(int n) : Matrix(n)
     {
         this->n;
         A = new int[n];
-    }
+    };
 
     void Set(int i, int j, int x)
     {
@@ -285,23 +250,12 @@ public:
     }
 };
 
-class TriDiagonalMatrix
+class TriDiagonalMatrix : Matrix
 {
-private:
-    int n;
-    int *A;
 
 public:
-    TriDiagonalMatrix()
-    {
-        n = 2;
-        A = new int[n];
-    }
-    TriDiagonalMatrix(int n)
-    {
-        this->n = n;
-        A = new int[n];
-    }
+    TriDiagonalMatrix() : Matrix(){};
+    TriDiagonalMatrix(int n) : Matrix(n){};
     void Set(int i, int j, int x)
     {
         i += 1;
@@ -354,24 +308,12 @@ public:
     }
 };
 
-class ToeplitxMatrix
+class ToeplitxMatrix : Matrix
 {
-private:
-    int n;
-    int *A;
-
 public:
-    ToeplitxMatrix()
-    {
-        n = 2;
-        A = new int[n];
-    }
+    ToeplitxMatrix() : Matrix(){};
 
-    ToeplitxMatrix(int n)
-    {
-        this->n = n;
-        A = new int[n];
-    }
+    ToeplitxMatrix(int n) : Matrix(n){};
 
     void Set(int i, int j, int x)
     {
@@ -421,40 +363,38 @@ public:
 int main()
 {
 
-    ToeplitxMatrix toeplitzMatrix(5);
+    Diagonal diagonal(5);
 
-    toeplitzMatrix.Set(0, 0, 1);
-    toeplitzMatrix.Set(1, 1, 1);
-    toeplitzMatrix.Set(4, 4, 1);
-    toeplitzMatrix.Set(2, 2, 1);
+    diagonal.Set(0, 0, 1);
+    diagonal.Set(0, 1, 0);
+    diagonal.Set(0, 2, 0);
+    diagonal.Set(0, 3, 0);
+    diagonal.Set(0, 4, 0);
 
-    toeplitzMatrix.Set(0, 1, 2);
-    toeplitzMatrix.Set(0, 2, 3);
-    toeplitzMatrix.Set(0, 3, 4);
-    toeplitzMatrix.Set(0, 4, 5);
+    diagonal.Set(1, 0, 0);
+    diagonal.Set(1, 1, 1);
+    diagonal.Set(1, 2, 0);
+    diagonal.Set(1, 3, 0);
+    diagonal.Set(1, 4, 0);
 
-    toeplitzMatrix.Set(1, 0, 6);
+    diagonal.Set(2, 0, 0);
+    diagonal.Set(2, 1, 0);
+    diagonal.Set(2, 2, 1);
+    diagonal.Set(2, 3, 0);
+    diagonal.Set(2, 4, 0);
 
-    toeplitzMatrix.Set(1, 2, 2);
-    toeplitzMatrix.Set(1, 3, 3);
-    toeplitzMatrix.Set(1, 4, 4);
+    diagonal.Set(3, 0, 0);
+    diagonal.Set(3, 1, 0);
+    diagonal.Set(3, 2, 0);
+    diagonal.Set(3, 3, 1);
+    diagonal.Set(3, 4, 0);
 
-    toeplitzMatrix.Set(2, 0, 7);
-    toeplitzMatrix.Set(2, 1, 6);
-    toeplitzMatrix.Set(2, 3, 2);
-    toeplitzMatrix.Set(2, 4, 3);
+    diagonal.Set(4, 0, 0);
+    diagonal.Set(4, 1, 0);
+    diagonal.Set(4, 2, 0);
+    diagonal.Set(4, 3, 0);
+    diagonal.Set(4, 4, 1);
 
-    toeplitzMatrix.Set(3, 0, 8);
-    toeplitzMatrix.Set(3, 1, 7);
-    toeplitzMatrix.Set(3, 2, 6);
-    toeplitzMatrix.Set(3, 3, 1);
-    toeplitzMatrix.Set(3, 4, 2);
-
-    toeplitzMatrix.Set(4, 0, 9);
-    toeplitzMatrix.Set(4, 1, 8);
-    toeplitzMatrix.Set(4, 2, 7);
-    toeplitzMatrix.Set(4, 3, 6);
-
-    toeplitzMatrix.Display();
+    diagonal.Display();
     return 0;
 }
