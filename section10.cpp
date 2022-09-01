@@ -61,15 +61,16 @@ public:
         }
     }
 
-    Sparse *Add(Sparse B)
+    // instead of copying obejct B in function add, we will pass a pointer to b;
+    Sparse *Add(Sparse *B)
     {
         int i = 0;
         int j = 0;
         int k = 0;
 
-        if (m != B.m || n != B.n)
+        if (m != B->m || n != B->n)
         {
-            cout << "Order of A and B should be same"
+            cout << "Order of A and B should Be same"
                  << endl;
             return 0;
         }
@@ -77,22 +78,22 @@ public:
         struct Sparse *C = (struct Sparse *)malloc(sizeof(struct Sparse));
         C->m = m;
         C->n = n;
-        C->e = (struct Element *)malloc((numOfElements + B.numOfElements) * sizeof(struct Element));
+        C->e = (struct Element *)malloc((numOfElements + B->numOfElements) * sizeof(struct Element));
 
-        while (i < numOfElements && j < B.numOfElements)
+        while (i < numOfElements && j < B->numOfElements)
         {
-            if (e[i].i == B.e[j].i && e[i].j == B.e[j].j)
+            if (e[i].i == B->e[j].i && e[i].j == B->e[j].j)
             {
                 C->e[k] = e[i++];
-                C->e[k++].x += B.e[j++].x;
+                C->e[k++].x += B->e[j++].x;
             }
-            else if (e[i].i == B.e[j].i && e[i].j > B.e[j].j)
-                C->e[k++] = B.e[j++];
-            else if (e[i].i == B.e[j].i && e[i].j < B.e[j].j)
+            else if (e[i].i == B->e[j].i && e[i].j > B->e[j].j)
+                C->e[k++] = B->e[j++];
+            else if (e[i].i == B->e[j].i && e[i].j < B->e[j].j)
                 C->e[k++] = e[i++];
-            else if (e[i].i > B.e[j].i)
-                C->e[k++] = B.e[j++];
-            else if (e[i].i < B.e[j].i)
+            else if (e[i].i > B->e[j].i)
+                C->e[k++] = B->e[j++];
+            else if (e[i].i < B->e[j].i)
                 C->e[k++] = e[i++];
         }
 
@@ -102,9 +103,9 @@ public:
             C->e[k++] = e[i];
         }
 
-        for (; j < B.numOfElements; j++)
+        for (; j < B->numOfElements; j++)
         {
-            C->e[k++] = B.e[j];
+            C->e[k++] = B->e[j];
         }
 
         C->numOfElements = k;
@@ -127,7 +128,7 @@ int main()
     B.Display();
 
     cout << "Matrix C==" << endl;
-    Sparse *C = A.Add(B);
+    Sparse *C = A.Add(&B);
 
     C->Display();
     return 0;
